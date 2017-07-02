@@ -1,0 +1,6 @@
+framework module PKCSwipeReusableView {
+  umbrella header "PKCSwipeReusableView-umbrella.h"
+
+  export *
+  module * { export * }
+}

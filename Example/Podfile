@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'PKCSwipeReusableView_Example' do
+  pod 'PKCSwipeReusableView', :path => '../'
+
+  target 'PKCSwipeReusableView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
