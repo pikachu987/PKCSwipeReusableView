@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		07216B21C1597385B78F235A78BA2D74 /* Pods-PKCSwipeReusableView_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B595E75EC3F4E3F29B3EED7DA70CF90 /* Pods-PKCSwipeReusableView_Tests-dummy.m */; };
+		0CF0CA311F08B7BA007B3FD7 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA301F08B7BA007B3FD7 /* Extension.swift */; };
+		0CF0CA331F08B7D2007B3FD7 /* PKCButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */; };
+		0CF0CA351F08B7E2007B3FD7 /* PKCSwipeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA341F08B7E2007B3FD7 /* PKCSwipeHelper.swift */; };
+		0CF0CA371F08B809007B3FD7 /* PKCSwipeReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA361F08B809007B3FD7 /* PKCSwipeReusableView.swift */; };
 		5AEB8D21E5AAB718E361DB37B49D3517 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		79892CED1346FBF1190F4CD3E5556AF6 /* Pods-PKCSwipeReusableView_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DB01AF23EDBE556305E1735FB27C9B1E /* Pods-PKCSwipeReusableView_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7CC107D610949CC872B6A493114E8FCF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
@@ -29,6 +33,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0CF0CA301F08B7BA007B3FD7 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCButton.swift; sourceTree = "<group>"; };
+		0CF0CA341F08B7E2007B3FD7 /* PKCSwipeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCSwipeHelper.swift; sourceTree = "<group>"; };
+		0CF0CA361F08B809007B3FD7 /* PKCSwipeReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCSwipeReusableView.swift; sourceTree = "<group>"; };
 		1319E92965607AC82A781385ACF519B9 /* PKCSwipeReusableView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PKCSwipeReusableView.xcconfig; sourceTree = "<group>"; };
 		16FB76BDA215BEB5D8197A01C2958756 /* Pods_PKCSwipeReusableView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PKCSwipeReusableView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CCBB39B7DCCC41D74A9F8A46C0B77F9 /* Pods-PKCSwipeReusableView_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PKCSwipeReusableView_Tests-frameworks.sh"; sourceTree = "<group>"; };
@@ -163,6 +171,10 @@
 		BA8747AE9940ADFB73BB719D2523A710 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0CF0CA301F08B7BA007B3FD7 /* Extension.swift */,
+				0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */,
+				0CF0CA341F08B7E2007B3FD7 /* PKCSwipeHelper.swift */,
+				0CF0CA361F08B809007B3FD7 /* PKCSwipeReusableView.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -309,6 +321,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					CBF60E05F888271794B8F4838B217595 = {
+						LastSwiftMigration = 0830;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -342,7 +359,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CF0CA371F08B809007B3FD7 /* PKCSwipeReusableView.swift in Sources */,
+				0CF0CA331F08B7D2007B3FD7 /* PKCButton.swift in Sources */,
+				0CF0CA351F08B7E2007B3FD7 /* PKCSwipeHelper.swift in Sources */,
 				AE8ECF2D3E66B12C4B906EDC651D565A /* PKCSwipeReusableView-dummy.m in Sources */,
+				0CF0CA311F08B7BA007B3FD7 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +468,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1319E92965607AC82A781385ACF519B9 /* PKCSwipeReusableView.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -647,6 +669,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1319E92965607AC82A781385ACF519B9 /* PKCSwipeReusableView.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
