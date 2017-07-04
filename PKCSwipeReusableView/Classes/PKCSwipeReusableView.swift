@@ -1,14 +1,31 @@
+//Copyright (c) 2017 pikachu987 <pikachu77769@gmail.com>
 //
-//  PKCSwipeReusableView.swift
-//  Pods
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
 //
-//  Created by Kim Guanho on 2017. 7. 2..
+//The above copyright notice and this permission notice shall be included in
+//all copies or substantial portions of the Software.
 //
-//
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//THE SOFTWARE.
+
 
 import UIKit
 
 open class PKCSwipeReusableView: UICollectionReusableView{
+    enum MoveType {
+        case left, right, `default`
+    }
+    
     private var rightArray = [PKCButton]()
     private var leftArray = [PKCButton]()
     
@@ -21,6 +38,7 @@ open class PKCSwipeReusableView: UICollectionReusableView{
     private var rightConst: NSLayoutConstraint?
     private var leftConst: NSLayoutConstraint?
     
+    private var moveType: MoveType = .default
     
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,16 +48,22 @@ open class PKCSwipeReusableView: UICollectionReusableView{
     
     open override func prepareForReuse() {
         super.prepareForReuse()
-        self.containerLeadingConst?.constant = 0
+        self.removeSwipe()
+        self.initSwipe()
     }
     
-    public func addRightSwipe(_ pkcButton: PKCButton){
-        if containerView == nil{
+    
+    private func addSwipe(_ pkcButton: PKCButton){
+        if self.containerView == nil{
             self.initSwipe()
         }
         self.addSubview(pkcButton)
         pkcButton.initWidth()
         self.addConstraints(pkcButton.verticalLayout())
+    }
+    
+    public func addRightSwipe(_ pkcButton: PKCButton){
+        self.addSwipe(pkcButton)
         if self.rightArray.isEmpty{
             let const = NSLayoutConstraint(
                 item: pkcButton,
@@ -78,12 +102,7 @@ open class PKCSwipeReusableView: UICollectionReusableView{
     }
     
     public func addLeftSwipe(_ pkcButton: PKCButton){
-        if containerView == nil{
-            self.initSwipe()
-        }
-        self.addSubview(pkcButton)
-        pkcButton.initWidth()
-        self.addConstraints(pkcButton.verticalLayout())
+        self.addSwipe(pkcButton)
         if self.leftArray.isEmpty{
             let const = NSLayoutConstraint(
                 item: pkcButton,
@@ -121,6 +140,32 @@ open class PKCSwipeReusableView: UICollectionReusableView{
         self.leftWidth += pkcButton.width
     }
     
+    
+    public func hide(_ animation: Bool){
+        self.containerLeadingConst?.constant = 0
+        if animation{
+            UIView.animate(withDuration: PKCSwipeHelper.shared.hideTimeInterval, animations: {
+                self.layoutIfNeeded()
+            })
+        }
+    }
+    public func showLeft(_ animation: Bool){
+        self.containerLeadingConst?.constant = -self.leftWidth
+        if animation{
+            UIView.animate(withDuration: PKCSwipeHelper.shared.showTimeInterval, animations: {
+                self.layoutIfNeeded()
+            })
+        }
+    }
+    
+    public func showRight(_ animation: Bool){
+        self.containerLeadingConst?.constant = self.rightWidth
+        if animation{
+            UIView.animate(withDuration: PKCSwipeHelper.shared.showTimeInterval, animations: {
+                self.layoutIfNeeded()
+            })
+        }
+    }
     
     private func removeSwipe(){
         self.containerLeadingConst?.constant = 0
@@ -200,20 +245,49 @@ open class PKCSwipeReusableView: UICollectionReusableView{
         self.addGestureRecognizer(panGesture)
     }
     
+    
     @objc private func panAction(_ sender: UIPanGestureRecognizer){
         guard let leading = self.containerLeadingConst else {
             return
         }
-        
         let velocity = sender.velocity(in: self)
         let value = leading.constant - velocity.x/100
         if value < -self.leftWidth{
+            self.containerLeadingConst?.constant = -self.leftWidth
             return
         }
         if value > self.rightWidth{
+            self.containerLeadingConst?.constant = self.rightWidth
             return
         }
         self.containerLeadingConst?.constant = value
+        if sender.state == .began{
+            self.moveType = velocity.x > 0 ? .left : .right
+        }
+        if sender.state == .ended{
+            if value > 0 {
+                var widthBoundary = self.rightWidth
+                if self.moveType == .left{
+                    widthBoundary = widthBoundary/3*2
+                }else if self.moveType == .right{
+                    widthBoundary = widthBoundary/3
+                }
+                self.containerLeadingConst?.constant = (widthBoundary > value) ? 0 : self.rightWidth
+            }else{
+                var widthBoundary = -self.leftWidth
+                if self.moveType == .left{
+                    widthBoundary = widthBoundary/3
+                }else if self.moveType == .right{
+                    widthBoundary = widthBoundary/3*2
+                }
+                self.containerLeadingConst?.constant = (widthBoundary < value) ? 0 : -self.leftWidth
+            }
+            
+            UIView.animate(withDuration: PKCSwipeHelper.shared.gestureTimeInterval, animations: {
+                self.layoutIfNeeded()
+            })
+            self.moveType = .default
+        }
     }
 }
 
