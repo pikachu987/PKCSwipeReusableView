@@ -26,17 +26,13 @@ open class PKCSwipeReusableView: UICollectionReusableView{
         case left, right, `default`
     }
     
+    private var pkcContainerImageView: PKCContainerImageView?
     private var rightArray = [PKCButton]()
     private var leftArray = [PKCButton]()
-    
-    private var containerView: UIView?
-    private var containerLeadingConst: NSLayoutConstraint?
-    
     private var rightWidth : CGFloat = 0
     private var leftWidth : CGFloat = 0
     
-    private var rightConst: NSLayoutConstraint?
-    private var leftConst: NSLayoutConstraint?
+    private var panGesture: PKCPanGestureRecognizer?
     
     private var moveType: MoveType = .default
     
@@ -54,216 +50,94 @@ open class PKCSwipeReusableView: UICollectionReusableView{
     
     
     private func addSwipe(_ pkcButton: PKCButton){
-        if self.containerView == nil{
+        if self.pkcContainerImageView == nil{
             self.initSwipe()
         }
         self.addSubview(pkcButton)
         pkcButton.initWidth()
-        self.addConstraints(pkcButton.verticalLayout())
     }
     
     public func addRightSwipe(_ pkcButton: PKCButton){
         self.addSwipe(pkcButton)
-        if self.rightArray.isEmpty{
-            let const = NSLayoutConstraint(
-                item: pkcButton,
-                attribute: .left,
-                relatedBy: .equal,
-                toItem: self.containerView,
-                attribute: .right,
-                multiplier: 1,
-                constant: 0)
-            self.addConstraint(const)
-        }else{
-            let const = NSLayoutConstraint(
-                item: pkcButton,
-                attribute: .left,
-                relatedBy: .equal,
-                toItem: self.rightArray.last,
-                attribute: .right,
-                multiplier: 1,
-                constant: 0)
-            self.addConstraint(const)
-        }
-        self.rightConst?.isActive = false
-        let rightConst = NSLayoutConstraint(
-            item: self,
-            attribute: .trailing,
-            relatedBy: .lessThanOrEqual,
-            toItem: pkcButton,
-            attribute: .trailing,
-            multiplier: 1,
-            constant: 0)
-        self.addConstraint(rightConst)
-        self.rightConst = rightConst
-        
+        pkcButton.rightConstApply(self.rightArray.isEmpty ? self.pkcContainerImageView : self.rightArray.last)
+        self.pkcContainerImageView?.rightThanConst(pkcButton)
         self.rightArray.append(pkcButton)
         self.rightWidth += pkcButton.width
     }
     
     public func addLeftSwipe(_ pkcButton: PKCButton){
         self.addSwipe(pkcButton)
-        if self.leftArray.isEmpty{
-            let const = NSLayoutConstraint(
-                item: pkcButton,
-                attribute: .right,
-                relatedBy: .equal,
-                toItem: self.containerView,
-                attribute: .left,
-                multiplier: 1,
-                constant: 0)
-            self.addConstraint(const)
-        }else{
-            let const = NSLayoutConstraint(
-                item: pkcButton,
-                attribute: .right,
-                relatedBy: .equal,
-                toItem: self.leftArray.last,
-                attribute: .left,
-                multiplier: 1,
-                constant: 0)
-            self.addConstraint(const)
-        }
-        self.leftConst?.isActive = false
-        let leftConst = NSLayoutConstraint(
-            item: self,
-            attribute: .leading,
-            relatedBy: .greaterThanOrEqual,
-            toItem: pkcButton,
-            attribute: .leading,
-            multiplier: 1,
-            constant: 0)
-        self.addConstraint(leftConst)
-        self.leftConst = leftConst
-        
+        pkcButton.leftConstApply(self.leftArray.isEmpty ? self.pkcContainerImageView : self.leftArray.last)
+        self.pkcContainerImageView?.leftThanConst(pkcButton)
         self.leftArray.append(pkcButton)
         self.leftWidth += pkcButton.width
     }
     
     
+    
     public func hide(_ animation: Bool){
-        self.containerLeadingConst?.constant = 0
-        if animation{
-            UIView.animate(withDuration: PKCSwipeHelper.shared.hideTimeInterval, animations: {
-                self.layoutIfNeeded()
-            })
-        }
+        self.pkcContainerImageView?.leadingConstant(0, animation: animation)
     }
     public func showLeft(_ animation: Bool){
-        self.containerLeadingConst?.constant = -self.leftWidth
-        if animation{
-            UIView.animate(withDuration: PKCSwipeHelper.shared.showTimeInterval, animations: {
-                self.layoutIfNeeded()
-            })
-        }
+        self.pkcContainerImageView?.leadingConstant(-self.leftWidth, animation: animation)
     }
-    
     public func showRight(_ animation: Bool){
-        self.containerLeadingConst?.constant = self.rightWidth
-        if animation{
-            UIView.animate(withDuration: PKCSwipeHelper.shared.showTimeInterval, animations: {
-                self.layoutIfNeeded()
-            })
-        }
+        self.pkcContainerImageView?.leadingConstant(self.rightWidth, animation: animation)
     }
     
     private func removeSwipe(){
-        self.containerLeadingConst?.constant = 0
-        self.containerLeadingConst?.isActive = false
-        self.containerView?.removeFromSuperview()
-        self.rightConst?.isActive = false
-        self.leftConst?.isActive = false
+        self.pkcContainerImageView?.remove()
         self.rightArray.forEach({ $0.removeFromSuperview() })
         self.leftArray.forEach({ $0.removeFromSuperview() })
         self.rightArray = [PKCButton]()
         self.leftArray = [PKCButton]()
         self.rightWidth = 0
         self.leftWidth = 0
+        self.removeGesture()
     }
     
     private func initSwipe(){
-        let containerView = UIImageView(frame: .zero)
+        let pkcContainerView = PKCContainerImageView(self.bounds.width)
+        self.addSubview(pkcContainerView)
+        pkcContainerView.constApply()
+        self.pkcContainerImageView = pkcContainerView
         
-        containerView.isUserInteractionEnabled = false
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = .clear
-        
-        self.addSubview(containerView)
-        self.addConstraints(containerView.verticalLayout())
-        let widthConst = NSLayoutConstraint(
-            item: containerView,
-            attribute: .width,
-            relatedBy: .equal,
-            toItem: nil,
-            attribute: .width,
-            multiplier: 1,
-            constant: self.bounds.width)
-        self.addConstraint(widthConst)
-        let containerLeadingConst = NSLayoutConstraint(
-            item: self,
-            attribute: .leading,
-            relatedBy: .equal,
-            toItem: containerView,
-            attribute: .leading,
-            multiplier: 1,
-            constant: 0)
-        containerLeadingConst.priority = UILayoutPriority(999)
-        self.addConstraint(containerLeadingConst)
-        DispatchQueue.main.async {
-            widthConst.constant = self.bounds.width
-            if let image = self.imageWithView(){
-                containerView.image = image
-            }
-        }
-        self.containerView = containerView
-        self.containerLeadingConst = containerLeadingConst
-        
-        let rightConst = NSLayoutConstraint(
-            item: self,
-            attribute: .right,
-            relatedBy: .lessThanOrEqual,
-            toItem: self.containerView,
-            attribute: .right,
-            multiplier: 1,
-            constant: 0)
-        self.addConstraint(rightConst)
-        self.rightConst = rightConst
-        
-        let leftConst = NSLayoutConstraint(
-            item: self,
-            attribute: .leading,
-            relatedBy: .greaterThanOrEqual,
-            toItem: self.containerView,
-            attribute: .leading,
-            multiplier: 1,
-            constant: 0)
-        self.addConstraint(leftConst)
-        self.leftConst = leftConst
-        
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.panAction(_:)))
-        panGesture.delegate = self
+        self.removeGesture()
+        let panGesture = PKCPanGestureRecognizer(target: self, action: #selector(self.panAction(_:)))
         self.addGestureRecognizer(panGesture)
+        self.panGesture = panGesture
+    }
+    
+    private func removeGesture(){
+        guard let panGesture = self.panGesture else{
+            return
+        }
+        self.removeGestureRecognizer(panGesture)
+        self.panGesture = nil
     }
     
     
-    @objc private func panAction(_ sender: UIPanGestureRecognizer){
-        guard let leading = self.containerLeadingConst else {
+    @objc private func panAction(_ sender: PKCPanGestureRecognizer){
+        guard let leading = self.pkcContainerImageView?.leadingConst else {
             return
         }
         let velocity = sender.velocity(in: self)
         let value = leading.constant - velocity.x/100
+        
         if value < -self.leftWidth{
-            self.containerLeadingConst?.constant = -self.leftWidth
+            leading.constant = -self.leftWidth
             return
         }
+        
         if value > self.rightWidth{
-            self.containerLeadingConst?.constant = self.rightWidth
+            leading.constant = self.rightWidth
             return
         }
-        self.containerLeadingConst?.constant = value
-        if sender.state == .began{
-            self.moveType = velocity.x > 0 ? .left : .right
-        }
+        
+        leading.constant = value
+        
+        if sender.state == .began{ self.moveType = velocity.x > 0 ? .left : .right }
+        
         if sender.state == .ended{
             if value > 0 {
                 var widthBoundary = self.rightWidth
@@ -272,7 +146,7 @@ open class PKCSwipeReusableView: UICollectionReusableView{
                 }else if self.moveType == .right{
                     widthBoundary = widthBoundary/3
                 }
-                self.containerLeadingConst?.constant = (widthBoundary > value) ? 0 : self.rightWidth
+                leading.constant = (widthBoundary > value) ? 0 : self.rightWidth
             }else{
                 var widthBoundary = -self.leftWidth
                 if self.moveType == .left{
@@ -280,7 +154,7 @@ open class PKCSwipeReusableView: UICollectionReusableView{
                 }else if self.moveType == .right{
                     widthBoundary = widthBoundary/3*2
                 }
-                self.containerLeadingConst?.constant = (widthBoundary < value) ? 0 : -self.leftWidth
+                leading.constant = (widthBoundary < value) ? 0 : -self.leftWidth
             }
             
             UIView.animate(withDuration: PKCSwipeHelper.shared.gestureTimeInterval, animations: {
@@ -291,8 +165,4 @@ open class PKCSwipeReusableView: UICollectionReusableView{
     }
 }
 
-extension PKCSwipeReusableView: UIGestureRecognizerDelegate{
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
+

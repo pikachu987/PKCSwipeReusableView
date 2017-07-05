@@ -21,17 +21,30 @@
 
 import UIKit
 
-class PKCSwipeHelper: NSObject {
-    static let shared = PKCSwipeHelper()
+open class PKCSwipeHelper: NSObject {
+    open static let shared = PKCSwipeHelper()
     private override init() { }
     
     //The default width of the button.
     //You can change the button's width again after creating the button.
-    var buttonWidth: CGFloat = 70
+    open var buttonWidth: CGFloat = 70
+    
+    
     //Time to apply in the hide method.
-    var hideTimeInterval: TimeInterval = 0.3
+    open var hideTimeInterval: TimeInterval = 0.3
+    
+    
     //Time of application in the show method.
-    var showTimeInterval: TimeInterval = 0.3
+    open var showTimeInterval: TimeInterval = 0.3
+    
+    
     //Time to animate after user action.
-    var gestureTimeInterval: TimeInterval = 0.2
+    open var gestureTimeInterval: TimeInterval = 0.2
+    
+    
+    //The button will appear as a nested effect on the uiview.
+    open var overlay: Bool = false
+    
+    //Auto-hide after button touch
+    open var touchAfterHide: Bool = true
 }

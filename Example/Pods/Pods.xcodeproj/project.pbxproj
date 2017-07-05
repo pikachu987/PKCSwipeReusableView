@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		07216B21C1597385B78F235A78BA2D74 /* Pods-PKCSwipeReusableView_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B595E75EC3F4E3F29B3EED7DA70CF90 /* Pods-PKCSwipeReusableView_Tests-dummy.m */; };
+		0C00BBF51F0CC4DD00E81EFB /* PKCContainerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C00BBF41F0CC4DD00E81EFB /* PKCContainerImageView.swift */; };
+		0C00BBF71F0CCD2E00E81EFB /* PKCPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C00BBF61F0CCD2E00E81EFB /* PKCPanGestureRecognizer.swift */; };
 		0CF0CA311F08B7BA007B3FD7 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA301F08B7BA007B3FD7 /* Extension.swift */; };
 		0CF0CA331F08B7D2007B3FD7 /* PKCButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */; };
 		0CF0CA351F08B7E2007B3FD7 /* PKCSwipeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0CA341F08B7E2007B3FD7 /* PKCSwipeHelper.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C00BBF41F0CC4DD00E81EFB /* PKCContainerImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCContainerImageView.swift; sourceTree = "<group>"; };
+		0C00BBF61F0CCD2E00E81EFB /* PKCPanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		0CF0CA301F08B7BA007B3FD7 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCButton.swift; sourceTree = "<group>"; };
 		0CF0CA341F08B7E2007B3FD7 /* PKCSwipeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCSwipeHelper.swift; sourceTree = "<group>"; };
@@ -171,10 +175,12 @@
 		BA8747AE9940ADFB73BB719D2523A710 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				0CF0CA301F08B7BA007B3FD7 /* Extension.swift */,
-				0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */,
 				0CF0CA341F08B7E2007B3FD7 /* PKCSwipeHelper.swift */,
 				0CF0CA361F08B809007B3FD7 /* PKCSwipeReusableView.swift */,
+				0C00BBF41F0CC4DD00E81EFB /* PKCContainerImageView.swift */,
+				0CF0CA321F08B7D2007B3FD7 /* PKCButton.swift */,
+				0C00BBF61F0CCD2E00E81EFB /* PKCPanGestureRecognizer.swift */,
+				0CF0CA301F08B7BA007B3FD7 /* Extension.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -359,7 +365,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C00BBF71F0CCD2E00E81EFB /* PKCPanGestureRecognizer.swift in Sources */,
 				0CF0CA371F08B809007B3FD7 /* PKCSwipeReusableView.swift in Sources */,
+				0C00BBF51F0CC4DD00E81EFB /* PKCContainerImageView.swift in Sources */,
 				0CF0CA331F08B7D2007B3FD7 /* PKCButton.swift in Sources */,
 				0CF0CA351F08B7E2007B3FD7 /* PKCSwipeHelper.swift in Sources */,
 				AE8ECF2D3E66B12C4B906EDC651D565A /* PKCSwipeReusableView-dummy.m in Sources */,

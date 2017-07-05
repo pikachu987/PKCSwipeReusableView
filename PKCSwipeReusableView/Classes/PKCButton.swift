@@ -24,7 +24,12 @@ import UIKit
 public class PKCButton: UIButton {
     public var width: CGFloat = PKCSwipeHelper.shared.buttonWidth
     
+    private var handler: ((PKCButton) -> Void)? = nil
+    
     func initWidth(){
+        guard let superView = self.superview else {
+            return
+        }
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addConstraint(NSLayoutConstraint(
             item: self,
@@ -34,5 +39,53 @@ public class PKCButton: UIButton {
             attribute: .width,
             multiplier: 1,
             constant: self.width))
+        
+        superView.addConstraints(self.verticalLayout())
+        
+        self.removeTarget(self, action: #selector(self.action(_:)), for: .touchUpInside)
+        self.addTarget(self, action: #selector(self.action(_:)), for: .touchUpInside)
+    }
+    
+    func rightConstApply(_ toItem: UIView?){
+        guard let superView = self.superview as? PKCSwipeReusableView else {
+            return
+        }
+        let const = NSLayoutConstraint(
+            item: self,
+            attribute: .left,
+            relatedBy: .equal,
+            toItem: toItem,
+            attribute: .right,
+            multiplier: 1,
+            constant: 0)
+        superView.addConstraint(const)
+    }
+    
+    func leftConstApply(_ toItem: UIView?){
+        guard let superView = self.superview as? PKCSwipeReusableView else {
+            return
+        }
+        let const = NSLayoutConstraint(
+            item: self,
+            attribute: .right,
+            relatedBy: .equal,
+            toItem: toItem,
+            attribute: .left,
+            multiplier: 1,
+            constant: 0)
+        superView.addConstraint(const)
+    }
+    
+    public func addTarget(_ handler: @escaping (PKCButton) -> Void){
+        self.handler = handler
+    }
+    
+    @objc private func action(_ sender: PKCButton){
+        if PKCSwipeHelper.shared.touchAfterHide{
+            if let superView = self.superview as? PKCSwipeReusableView {
+                superView.hide(true)
+            }
+        }
+        self.handler?(sender)
     }
 }

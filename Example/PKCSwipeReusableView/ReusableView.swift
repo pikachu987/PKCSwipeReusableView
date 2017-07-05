@@ -22,8 +22,6 @@ class ReusableView: PKCSwipeReusableView {
         self.commonInitialization()
     }
     
-    
-    
     private func commonInitialization(){
         self.containerView = Bundle.main.loadNibNamed("ReusableView", owner: self, options: nil)?.first as! UIView
         self.containerView.frame = self.bounds
@@ -38,27 +36,8 @@ class ReusableView: PKCSwipeReusableView {
         self.initVars()
     }
     
-    
-    
-    
     private func initVars(){
         self.containerView.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         self.backgroundColor = UIColor.clear
-    }
-    
-    
-    
-    
-    
-    func setEntity(_ indexPath: IndexPath){
-        self.label.text = "header : \(indexPath.section),\(indexPath.row)"
-        let pkcButton = PKCButton(frame: .zero)
-        pkcButton.backgroundColor = .red
-        self.addRightSwipe(pkcButton)
-        if indexPath.section == 0{
-            let pkc2 = PKCButton(frame: .zero)
-            pkc2.backgroundColor = .green
-            self.addLeftSwipe(pkc2)
-        }
     }
 }

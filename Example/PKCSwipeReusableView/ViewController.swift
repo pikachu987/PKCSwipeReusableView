@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PKCSwipeReusableView
 
 class ViewController: UIViewController{
     @IBOutlet weak var collectionView: UICollectionView!
@@ -30,6 +31,41 @@ extension ViewController: UICollectionViewDelegate{
 }
 
 extension ViewController: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionElementKindSectionHeader{
+            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ReusableView", for: indexPath) as! ReusableView
+            
+            //
+            reusableView.label.text = "ReusableView Header"
+            let pkcButton1 = PKCButton(frame: .zero)
+            pkcButton1.backgroundColor = .red
+            pkcButton1.setTitle("Delete", for: .normal)
+            reusableView.addRightSwipe(pkcButton1)
+            pkcButton1.addTarget({ (button) in
+                print(button)
+            })
+            if indexPath.section < 3{
+                let pkcButton2 = PKCButton(frame: .zero)
+                pkcButton2.backgroundColor = .green
+                pkcButton2.setTitle("Save", for: .normal)
+                reusableView.addLeftSwipe(pkcButton2)
+            }
+            
+            
+            
+            return reusableView
+        }else if kind == UICollectionElementKindSectionFooter{
+            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ReusableView", for: indexPath) as! ReusableView
+            return reusableView
+        }else{
+            assert(false, "Unexpected element kind")
+        }
+    }
+    
+    
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
     }
@@ -42,20 +78,6 @@ extension ViewController: UICollectionViewDataSource{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
         cell.imageView.image = UIImage(named: "\(indexPath.row+1).jpg")
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader{
-            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ReusableView", for: indexPath) as! ReusableView
-            reusableView.setEntity(indexPath)
-            return reusableView
-        }else if kind == UICollectionElementKindSectionFooter{
-            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ReusableView", for: indexPath) as! ReusableView
-            reusableView.setEntity(indexPath)
-            return reusableView
-        }else{
-            assert(false, "Unexpected element kind")
-        }
     }
 }
 

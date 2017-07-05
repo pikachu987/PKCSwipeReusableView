@@ -552,6 +552,7 @@
 			baseConfigurationReference = D63FC3DBF7FCA232A5D918E6 /* Pods-PKCSwipeReusableView_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PKCSwipeReusableView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -566,6 +567,7 @@
 			baseConfigurationReference = 9AC4BA28016D8817A4DCFAFE /* Pods-PKCSwipeReusableView_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PKCSwipeReusableView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -579,6 +581,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E3CEEF0B09569B1A67ADFEF /* Pods-PKCSwipeReusableView_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -599,6 +602,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AEA7BD6C4B2A42F8C02A0B2A /* Pods-PKCSwipeReusableView_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
